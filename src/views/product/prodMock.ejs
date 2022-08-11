@@ -1,0 +1,41 @@
+<%- include('../partials/header.ejs') %>
+<div class="container">
+    <h2 style="
+        margin-top: 35px;
+        text-align: center;
+        color:#ffc107; 
+        background-color: #212529; 
+        padding-bottom: 8px; 
+        margin-bottom: 0px;
+        border-radius: 10px 10px 0px 0px;"> Mas vendidos </h2>
+</div>
+<div>
+    <div class="card text-bg-warning" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text"></p>
+          <a href="#" class="btn btn-warning">Comprar</a>
+        </div>
+      </div>
+</div>
+
+<% if (nuevosProductos.length > 0){ %> 
+    <table class="table table-dark table-hover">
+        <tr >
+            <th><h4>Producto</h4></th>
+            <th><h4>Precio</h4></th>
+            <th><h4>Foto</h4></th>
+            <th></th>
+        </tr>
+        <%for(newProducts of newProducts){ %>
+         <tr>
+             <td><h5><%=newProducts.name %></h5></td>
+             <td><h5>$<%=newProducts.price  %></h5></td>
+             <td><img style="width: 55px; height: 55px;" src= <%=newProducts.img  %> ></td>
+             <td><button type="button" class="btn btn-warning">Comprar</button></td>
+         </tr>
+        <% } %> 
+    </table>
+<% }%>
+<%- include('../partials/footer.ejs') %>
