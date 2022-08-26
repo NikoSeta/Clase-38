@@ -9,4 +9,4 @@ const iniciarMongo = mongoose.connect(`${mongoUri}`, {
 
 module.exports = {
     iniciarMongo
-}
+};

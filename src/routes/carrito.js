@@ -2,8 +2,10 @@ const carritoMongo = require('../models/carritoMongo');
 const contenedorCarrito = require ('../contenedores/contenedorCarrito');
 const carrito = new contenedorCarrito;
 
-async function verCarrito(req, res){
-    let carrito = await carrito.getAll();
+let nuevoCarrito = []
+
+function verCarrito(req, res){
+    nuevoCarrito = carrito.getAll();
     res.render('product/carrito', {
         carrito:carrito
     });  

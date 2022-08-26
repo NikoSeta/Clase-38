@@ -22,6 +22,8 @@ function postLogin (req, res) {
         res.redirect('logg/logInForm')
     }
 }
+
+
 //--DIRECCION DESPUES DE SIGN IN
 function postSignup (req, res) {
     if (req.isAuthenticated()) {

@@ -23,7 +23,7 @@ app.set('views', __dirname + '/src/views');
 app.use(express.static(__dirname + "/partial"));
 
 iniciarMongo;
-multiServer();
+//multiServer();
 
 //  INDEX
 app.get('/session', routerLog.getRoot);
@@ -46,6 +46,7 @@ app.get('/ruta-protegida', routerLog.checkAuthentication, (req, res) => {
 //app.get('*', routerLog.failRoute);
 // PRODUCTOS
 app.get('/productos', routerProd.verProductos);
+app.post('/productos', routerProd.agregarProd)
 app.get('/', routerProd.productosPrincipal);
 app.post("/productos:id", routerProd.agregarProd);
 // CARRITO

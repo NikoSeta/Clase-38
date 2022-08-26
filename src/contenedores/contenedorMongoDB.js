@@ -1,4 +1,3 @@
-const { generarProductos } = require('../utils/generadorProductos');
 const prodModel = require('../models/productosMongo');
 let model = prodModel
 
@@ -13,7 +12,6 @@ class ContenedorMongoDB {
     }
 
     async createProd(){
-        const productos = { generarProductos };
         const productoSaveModel = new model.productos(productos);
         let productsSave = await productoSaveModel.save();
         console.log(productsSave);
@@ -33,19 +31,19 @@ class ContenedorMongoDB {
     }
 
     async update(content) {
-        let contentArray = this.getAll();
+        let contentArray = await this.getAll();
         let index = contentArray.find(elem => {
             return elem.id === content.id;
         });
 
         if (index != -1) {
-            let usuarioUpdate = await model.usuarios.updateOne(
-                {name: content.name},
-                {price: content.price},
-                {img: content.img},
-                {stock: content.stock}
+            let usuarioUpdate = this.model.updateOne(
+                {"name": content.name},
+                {"price": content.price},
+                {"img": content.img},
+                {"stock": content.stock}
             );
-            console.log(usuarioUpdate);
+            console.log("Nuevo producto cargado:" + usuarioUpdate);
         }
         return content;
     }

@@ -1,15 +1,13 @@
 const prodModel = require('../models/productosMongo');
 const ContenedorMongoDB = require ('../contenedores/contenedorMongoDB');
 const contenedor = new ContenedorMongoDB(prodModel);
-const ProductosMock = require('../API/productos');
-const newProd = new ProductosMock();
 
-
-function productosPrincipal(req, res) {
-    let newProducts = newProd.popular();
-    res.render('product/prodMock',{ 
-        newProducts:newProducts
-    });
+async function productosPrincipal(req, res) {
+    let products = await contenedor.getAll();
+    let seleccionados = products.slice(1,5)
+    res.render('product/prodMock',{
+        products: seleccionados
+    });  
 };
 
 async function verProductos(req, res) {

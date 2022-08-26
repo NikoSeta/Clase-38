@@ -6,6 +6,7 @@ function render(data) {
         <div>
             <div>${elem.avatar}</div>
             <strong>${elem.alias}, ${elem.age}</strong>:
+            <p>${elem.time}<p>
             <em>${elem.text}</em>
         </div>`)
     }).join(" ");
