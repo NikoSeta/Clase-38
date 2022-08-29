@@ -1,27 +1,13 @@
-const carritoMongo = require('../models/carritoMongo');
-const contenedorCarrito = require ('../contenedores/contenedorCarrito');
-const carrito = new contenedorCarrito;
+const express = require('express');
+const { Router } = express;
+const carrito = require('../controllers/carrito');
+const routerCart = Router();
 
-let nuevoCarrito = []
+// CARRITO
+routerCart.get('/', carrito.verCarrito);
+routerCart.post('/cart:id', carrito.agregarAlCarrito);
+routerCart.put('/prod-cart:productId')
+routerCart.delete('/prod-cart:productId')
 
-function verCarrito(req, res){
-    nuevoCarrito = carrito.getAll();
-    res.render('product/carrito', {
-        carrito:carrito
-    });  
-}
 
-function agregarAlCarrito(req, res) {
-    let productoById = carrito.getById;
-    if(productoById != null){
-        productoById.push(carritoMongo);
-        res.render('carrito/carrito',{ productoById: productoById })
-    }else{
-        console.log('No se pudo agregar al carrito');
-    }
-};
-
-module.exports = {
-    verCarrito,
-    agregarAlCarrito
-}
+module.exports = routerCart;

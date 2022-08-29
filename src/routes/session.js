@@ -1,92 +1,26 @@
-//--DIRECCION MAIN
-function getRoot(req, res) {
-    res.render('logg/main')
-}
-//--DIRECCION LOG IN
-function getLogin(req, res) {
-    if (req.isAuthenticated()) {
-        res.redirect('logg/profileUser')
-    } else {
-        res.render('logg/logInForm');
-    }
-}
-//--DIRECCION SIGN UP
-function getSignup(req, res) {
-    res.render('logg/sign-up');
-}
-//--DIRECCION DESPUES DE LOG IN
-function postLogin (req, res) {
-    if (req.isAuthenticated()) {
-        res.redirect('logg/profileUser')
-    } else {
-        res.redirect('logg/logInForm')
-    }
-}
+const express = require('express');
+const { Router } = express;
+const log = require('../controllers/session')
+const routerLog = Router();
 
+//  INDEX
+routerLog.get('/', log.getRoot);
+//  LOGIN
+routerLog.get('/login', log.getLogin);
+routerLog.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), log.postLogin);
+routerLog.get('/faillogin', log.getFaillogin);
+//  SIGNUP
+routerLog.get('/signup', log.getSignup);
+routerLog.post('/signup', passport.authenticate('signup', { failureRedirect: '/failsignup' }), log.postSignup);
+routerLog.get('/failsignup', log.getFailsignup);
+//  LOGOUT
+routerLog.get('/logout', log.getLogout);
+// PROFILE
+routerLog.get('/profileUser', log.getProfile);
+routerLog.get('/ruta-protegida', log.checkAuthentication, (req, res) => {
+    res.render('protected')
+});
+//  FAIL ROUTE
+//log.get('*', );
 
-//--DIRECCION DESPUES DE SIGN IN
-function postSignup (req, res) {
-    if (req.isAuthenticated()) {
-        res.redirect('logg/profileUser')
-    } else {
-        res.redirect('logg/logInForm')
-    }
-}
-//--DIRECCION DEL PERFIL
-function getProfile (req, res) {
-    if (req.isAuthenticated()) {
-        let user = req.user;
-        res.render('logg/profileUser', { user: user, isUser:true })
-    } else {
-        res.redirect('login')
-    }
-}
-//--DIRECCION DE FALLA LOG IN
-function getFaillogin (req, res) {
-    console.log('error en login');
-    res.render('logg/log-in-err', {});
-}
-//--DIRECCION DE FALLA SIGN IN
-function getFailsignup (req, res) {
-    console.log('error en signup');
-    res.render('logg/sign-up-err');
-}
-
-//--DIRECCION DE LOG OUT
-function getLogout (req, res) {
-    req.logout( (err) => {
-        //--logout -> metodo propio de passport
-        if (!err) {
-            res.render('index');
-        } 
-    });
-}
-//--DIRECCION DE ERROR 
-function failRoute(req, res){
-    res.status(404).render('logg/routing-err', {});
-}
-//--AUTENTICACION DE USUARIO
-function checkAuthentication(req, res, next) {
-    if (req.isAuthenticated()) {
-        //req.isAuthenticated() will return true if user is logged in
-        next();
-    } else {
-        res.redirect('logg/logInForm');
-    }
-}
-
-
-
-module.exports = {
-    getRoot,
-    getLogin,
-    postLogin,
-    getFaillogin,
-    getLogout,
-    failRoute,
-    getSignup,
-    postSignup,
-    getFailsignup,
-    checkAuthentication,
-    getProfile   
-}
+module.exports = routerLog;

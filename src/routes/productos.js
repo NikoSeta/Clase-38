@@ -1,35 +1,13 @@
-const prodModel = require('../models/productosMongo');
-const ContenedorMongoDB = require ('../contenedores/contenedorMongoDB');
-const contenedor = new ContenedorMongoDB(prodModel);
+const express = require('express');
+const { Router } = express;
+const prodControll = require('../controllers/productos');
 
-async function productosPrincipal(req, res) {
-    let products = await contenedor.getAll();
-    let seleccionados = products.slice(1,5)
-    res.render('product/prodMock',{
-        products: seleccionados
-    });  
-};
+const routerProd = Router();
 
-async function verProductos(req, res) {
-    let products = await contenedor.getAll();
-    res.render('product/productos',{
-        products: products
-    });  
-};
+// PRODUCTOS
+routerProd.get('/productos', prodControll.verProductos);
+routerProd.post('/productos', prodControll)
+routerProd.get('/', prodControll);
+routerProd.post("/productos:id", prodControll);
 
-function agregarProd (req, res){
-    try {
-        const newProducto = req.body
-        contenedor.update(newProducto)
-        res.redirect("/")
-        console.log(req.body);
-    } catch (error) {
-        console.log(error);
-    }    
-}
-
-module.exports = {
-    verProductos,
-    productosPrincipal,
-    agregarProd
-};
+module.exports = routerProd;
