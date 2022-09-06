@@ -1,10 +1,9 @@
 const express = require('express');
 const { Router } = express;
 const prodControll = require('../controllers/productos');
-
 const routerProd = Router();
 
-// PRODUCTOS
+
 routerProd.get('/productos', prodControll.verProductos);
 routerProd.post('/productos', prodControll)
 routerProd.get('/', prodControll);

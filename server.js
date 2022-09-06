@@ -1,19 +1,28 @@
+//Servidor Express
 const express = require('express');
 const app = express();
+//HTTP server para Socket.IO
 const { Server: HttpServer } = require('http');
 const { Server:IOServer } = require('socket.io');
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+
+const mensajesModel = require('./src/models/mensajesMongo');
+const messages = mensajesModel;
+//Puerto
+const { PORT } = require ('./src/config/globals');
+//Routs
 const routerCart = require('./src/routes/carrito');
 const routerProd = require('./src/routes/carrito');
 const routerLog = require('./src/routes/carrito');
-const { PORT } = require ('./src/config/globals');
+
 const { infoNode } = require('./src/models/infoSistema');
 const { multiServer } = require('./src/services/cluster');
 const { iniciarMongo } = require('./src/daos/connectMongoDB');
-const mensajesModel = require('./src/models/mensajesMongo');
-const messages = mensajesModel;
-
+//GraphQL
+const { graphqlHTTP } = require('express-graphql');
+const schemaProductos = require('./src/utils/schemaProd');
+const { schema } = require('./src/models/mensajesMongo');
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -28,6 +37,12 @@ app.use('/cart', routerCart);
 app.use('/productos', routerProd);
 app.use('/session', routerLog);
 
+//GraphQL
+app.use('/graphql', graphqlHTTP({
+    schema: schemaProductos,
+    graphiql: true
+    }
+));
 
 //MENSAJERÍA    
 app.get('/chat:status', (req, res)=>{ // SOCKET.IO MENSAJERÍA
@@ -53,7 +68,7 @@ app.get('/info', (req, res)=>{
 });
 // SERVIDOR ESCUCHANDO
 httpServer.listen(PORT, () => {
-    console.log(`Ir a la página http://localhost:${PORT}/session`);
+    console.log(`Ir a la página http://localhost:${PORT}/graphql`);
 });
 httpServer.on('error', error => console.log(`Error en el servidor ${error}`))
 
