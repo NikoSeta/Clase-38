@@ -19,10 +19,7 @@ const routerLog = require('./src/routes/carrito');
 const { infoNode } = require('./src/models/infoSistema');
 const { multiServer } = require('./src/services/cluster');
 const { iniciarMongo } = require('./src/daos/connectMongoDB');
-//GraphQL
-const { graphqlHTTP } = require('express-graphql');
-const schemaProductos = require('./src/utils/schemaProd');
-const { schema } = require('./src/models/mensajesMongo');
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -36,13 +33,6 @@ iniciarMongo;
 app.use('/cart', routerCart);
 app.use('/productos', routerProd);
 app.use('/session', routerLog);
-
-//GraphQL
-app.use('/graphql', graphqlHTTP({
-    schema: schemaProductos,
-    graphiql: true
-    }
-));
 
 //MENSAJERÍA    
 app.get('/chat:status', (req, res)=>{ // SOCKET.IO MENSAJERÍA
