@@ -58,7 +58,7 @@ app.get('/info', (req, res)=>{
 });
 // SERVIDOR ESCUCHANDO
 httpServer.listen(PORT, () => {
-    console.log(`Ir a la página http://localhost:${PORT}/graphql`);
+    console.log(`Ir a la página http://localhost:${PORT}`);
 });
 httpServer.on('error', error => console.log(`Error en el servidor ${error}`))
 

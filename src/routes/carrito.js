@@ -6,8 +6,8 @@ const routerCart = Router();
 // CARRITO
 routerCart.get('/', carrito.verCarrito);
 routerCart.post('/cart:id', carrito.agregarAlCarrito);
-routerCart.put('/prod-cart:productId')
-routerCart.delete('/prod-cart:productId')
+routerCart.put('/prod-cart:id')
+routerCart.delete('/prod-cart:id', carrito.borrarDelCarrito)
 
 
 module.exports = routerCart;

@@ -21,7 +21,13 @@ function agregarAlCarrito(req, res) {
     }
 };
 
+function borrarDelCarrito(req, res) {
+    let id = req.params['id']
+    carrito.delete(id)
+}
+
 module.exports = {
     verCarrito,
-    agregarAlCarrito
+    agregarAlCarrito,
+    borrarDelCarrito
 }
